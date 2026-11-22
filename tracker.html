@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" type="image/svg+xml" href="%BASE_URL%favicon.svg" />
+    <title>Lunar — Tracking Bench</title>
+    <script>
+      if (new URLSearchParams(location.search).has("embedded"))
+        document.documentElement.classList.add("embedded");
+    </script>
+  </head>
+  <body>
+    <header id="sessionBar">
+      <a href="%BASE_URL%">↖ Starfield lab</a
+      ><button id="connectCameras">Connect cameras</button
+      ><button id="runCalibration">Run autocalibration</button
+      ><button id="recordStereo">Record stereo session</button
+      ><button id="loadStereo">Load stereo session</button
+      ><button id="toggleStereo" hidden>Pause replay</button
+      ><button id="toggleCameraFocus" aria-pressed="false">Collapse right panels</button
+      ><label id="seekLabel" hidden
+        >Seek
+        <input
+          id="seekStereo"
+          type="range"
+          min="0"
+          max="1"
+          step="0.01"
+          value="0" /></label
+      ><span id="sessionInfo"
+        >World joints broadcast to the starfield on this origin.</span
+      >
+    </header>
+    <dialog id="guidedCalibration" aria-labelledby="calibrationCue">
+      <h1 id="calibrationCue" aria-live="polite"></h1>
+      <p></p>
+      <button data-close>Close</button>
+    </dialog>
+    <div id="benchLayout">
+      <div id="app">
+        <main id="views">
+          <div id="poseGrid"></div>
+          <div id="aux">
+            <div id="depthGrid"></div>
+            <section class="panel">
+              <h2>Top-down <span>drag camera dots · 1 m grid</span></h2>
+              <canvas id="top"></canvas>
+              <button id="alignCenters" hidden>Align captured centers</button>
+            </section>
+            <section class="panel">
+              <h2>Stats</h2>
+              <pre id="stats">–</pre>
+            </section>
+          </div>
+        </main>
+      </div>
+      <aside id="leva"></aside>
+    </div>
+    <input type="file" id="calibFile" accept=".conf,.ini,.txt" hidden /><input
+      type="file"
+      id="sessionFile"
+      accept=".zip"
+      hidden
+    />
+    <div id="status"></div>
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>

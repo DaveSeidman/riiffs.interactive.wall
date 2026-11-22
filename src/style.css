@@ -1,0 +1,316 @@
+:root {
+  --bg: #090b18;
+  --panel: #0f1328;
+  --line: #2b304d;
+  --text: #e1dff0;
+  --muted: #9193af;
+  --aux-w: clamp(260px, 26vw, 460px);
+  color-scheme: dark;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  height: 100%;
+  background: var(--bg);
+  color: var(--text);
+  font:
+    13px/1.4 system-ui,
+    -apple-system,
+    sans-serif;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  height: 100dvh;
+}
+#sessionBar, #guidedCalibration { flex: none; }
+#app {
+  min-height: 0;
+  min-width: 0;
+}
+#benchLayout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 360px;
+  flex: 1;
+  min-height: 0;
+  grid-template-rows: minmax(0, 1fr);
+}
+#leva {
+  min-width: 0;
+  background: #101328;
+  border-left: 1px solid var(--line);
+  min-height: 0;
+  overflow: auto;
+}
+
+#sessionBar {
+  min-height: 56px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 9px 14px;
+  border-bottom: 1px solid var(--line);
+  flex-wrap: wrap;
+}
+#sessionBar a {
+  color: #c4a6ed;
+  text-decoration: none;
+  font-size: 11px;
+  margin-right: 8px;
+}
+html.embedded #sessionBar {
+  padding-right: 14px;
+}
+html.embedded #sessionBar a {
+  display: none;
+}
+#sessionBar button {
+  color: #e1dff0;
+  background: #191e38;
+  border: 1px solid #363a60;
+  border-radius: 4px;
+  padding: 7px 9px;
+  font: 11px system-ui;
+  cursor: pointer;
+}
+#sessionBar button:disabled {
+  opacity: 0.5;
+}
+#sessionBar [hidden] {
+  display: none;
+}
+#sessionInfo {
+  color: #9193af;
+  font-size: 10px;
+}
+#seekLabel {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  font-size: 10px;
+}
+#seekStereo {
+  width: 130px;
+}
+
+/* Ladder/alignment view: leave only the camera canvas visible, with one
+   persistent button to restore the controls. */
+html.camera-focus #sessionBar > *:not(#toggleCameraFocus) {
+  display: none;
+}
+
+html.camera-focus #sessionBar {
+  position: fixed;
+  z-index: 2;
+  top: 0;
+  right: 0;
+  min-height: 0;
+  padding: 8px;
+  border: 0;
+  background: transparent;
+}
+
+html.camera-focus #benchLayout {
+  grid-template-columns: minmax(0, 1fr) 0;
+  gap: 0;
+}
+
+
+html.camera-focus #leva,
+html.camera-focus #aux {
+  min-width: 0;
+  width: 0;
+  opacity: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+html.camera-focus #views {
+  grid-template-columns: minmax(0, 1fr) 0;
+  gap: 0;
+  padding: 0;
+}
+
+html.camera-focus #poseGrid {
+  gap: 0;
+}
+
+@media (max-width: 1000px) {
+  #sessionBar {
+    padding-right: 14px;
+  }
+}
+
+#views {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) var(--aux-w);
+  gap: 8px;
+  padding: 8px;
+  height: 100%;
+}
+
+#aux {
+  display: grid;
+  grid-template-rows: minmax(0, 4fr) minmax(0, 3fr) minmax(0, 1.5fr);
+  gap: 8px;
+  min-height: 0;
+}
+#aux > .panel { display: flex; flex-direction: column; min-height: 0; }
+#top { flex: 1; min-height: 0; height: 0; }
+
+.panel {
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  padding: 6px;
+  min-width: 0;
+}
+
+.panel h2 {
+  margin: 0 0 6px;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.panel h2 span {
+  color: var(--muted);
+  font-weight: 400;
+  text-transform: none;
+  letter-spacing: 0;
+  margin-left: 6px;
+}
+
+canvas {
+  display: block;
+  width: 100%;
+  height: auto;
+  background: #000;
+  border-radius: 3px;
+}
+
+/* Pose views: one per camera, stacked; each as large as fits at 16:9 */
+#poseGrid {
+  display: grid;
+  grid-auto-rows: minmax(0, 1fr);
+  gap: 8px;
+  min-height: 0;
+  height: 100%;
+}
+
+#poseGrid[data-count="3"],
+#poseGrid[data-count="4"] {
+  grid-template-columns: 1fr 1fr;
+}
+
+.pose-panel {
+  container-type: size;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+
+.stack {
+  position: relative;
+  width: min(100cqw, calc((100cqh - 22px) * 16 / 9));
+  margin: auto;
+}
+
+.stack canvas.overlay {
+  position: absolute;
+  inset: 0;
+  height: 100%;
+  background: transparent;
+}
+
+#depthGrid {
+  display: grid;
+  grid-auto-rows: minmax(0, 1fr);
+  min-height: 0;
+  gap: 6px;
+}
+#depthGrid:has(> :nth-child(3)) {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+.depth-panel {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+.depth-panel canvas {
+  flex: 1;
+  min-height: 0;
+  height: 0;
+  object-fit: contain;
+}
+
+#stats {
+  margin: 0;
+  font:
+    11px/1.5 ui-monospace,
+    Menlo,
+    monospace;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  overflow: auto;
+  min-height: 0;
+}
+
+#status {
+  position: fixed;
+  left: 50%;
+  bottom: 16px;
+  transform: translateX(-50%);
+  padding: 8px 14px;
+  border-radius: 6px;
+  max-width: 80vw;
+  display: none;
+  z-index: 10;
+}
+
+#status.info,
+#status.error {
+  display: block;
+}
+
+#status.info {
+  background: #252047;
+}
+
+#status.error {
+  background: #461e3a;
+}
+
+@media (max-width: 1000px) {
+  #benchLayout { grid-template-columns: minmax(0, 1fr) min(38vw, 340px); }
+  #views {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: minmax(0, 2fr) minmax(0, 1fr);
+  }
+  #aux { grid-template: minmax(0,1fr) / repeat(3,minmax(0,1fr)); }
+  html.camera-focus #views { grid-template-rows: minmax(0,1fr); }
+}
+#guidedCalibration {
+  position: static; width: auto; max-width: none; margin: 0; border: 0;
+  padding: .5rem 1rem; background: var(--panel); color: white;
+}
+#guidedCalibration[open] { display: flex; align-items: center; flex-wrap: wrap; gap: .75rem; }
+#guidedCalibration h1 { font-size: 1.1rem; margin: 0; }
+#guidedCalibration p { margin: 0 auto 0 0; }
+.pose-check:not([hidden]) {
+  position: absolute; top: .6rem; right: .6rem;
+  width: clamp(36px,5vw,68px); aspect-ratio: 1; box-sizing: border-box;
+  display: grid; place-items: center; border: 3px solid currentColor;
+  border-radius: .45rem; background: rgb(9 11 24 / 75%); color: #cdd1dc;
+  font: bold clamp(27px,4vw,54px)/1 system-ui;
+}
+.pose-check[data-state="ready"] { color: #85f3ad; }
+.pose-check[data-state="missing-depth"] { color: #ffcf71; }
+.calibration-dim { opacity: .28; }

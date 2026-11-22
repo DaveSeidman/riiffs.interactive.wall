@@ -1,0 +1,27 @@
+{
+  "name": "High opposing corners before lower-mount test",
+  "date": "2026-11-17",
+  "origin": "http://127.0.0.1:8081",
+  "settings": {
+    "res": "1344x376@100", "mode": 0, "procW": 480, "window": "5x5",
+    "maxD": 64, "minConf": 0.08, "median": true, "yOffset": 0, "near": 0.4, "far": 6,
+    "poseOn": true, "poseModel": "full", "numPoses": 4, "poseConf": 0.5,
+    "boostB": 1, "boostC": 1, "showRaw": true, "showSmooth": true,
+    "mc2": 1.5, "mc3": 0.6, "beta": 0.5, "fuseDist": 2,
+    "mergeDupes": true, "sizeFilter": true, "minBody": 0.15, "maxBody": 0.9
+  },
+  "cameras": [
+    {
+      "slot": 1, "deviceId": "5e5a43894b0d84f9b75c4e6c502f1b791206c0c486cce62a7e506901403fb496",
+      "calibChoice": "SN34308790.conf", "custom": null, "upsideDown": true, "placementVersion": 1,
+      "extr": {"x": 2.4000000000000004, "y": 0, "z": 0, "yaw": -30, "pitch": 10, "roll": 0},
+      "imageBrightness": 1.9, "imageContrast": 0.8999999999999999
+    },
+    {
+      "slot": 2, "deviceId": "8d58ca415cd56d8dfd22fb8c9f9790d2521cb75de1ec8a0976b14f783665e1b4",
+      "calibChoice": "SN34308790.conf", "custom": null, "upsideDown": true, "placementVersion": 1,
+      "extr": {"x": -4.32, "y": 0, "z": 0, "yaw": 30, "pitch": 10, "roll": 0},
+      "imageBrightness": 10, "imageContrast": 0.85
+    }
+  ]
+}

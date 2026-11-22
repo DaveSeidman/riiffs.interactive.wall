@@ -1,0 +1,8 @@
+node_modules
+dist
+public/mediapipe-wasm
+node_modules/
+.test-artifacts/
+.playwright-mcp/
+
+.DS_Store
