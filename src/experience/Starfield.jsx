@@ -14,6 +14,7 @@ import { BONES, MAX_PEOPLE, projectJoint, proximity } from "./body.js";
 import { getPalette } from "./palette.js";
 import InteractionScene, {SceneCamera} from "./InteractionScene.jsx";
 import ModeProducts from "./ModeProducts.jsx";
+import Magnolias from "./Magnolias.jsx";
 import Blush from "./Blush.jsx";
 import QuietBrandingOverlay from "./QuietBranding.jsx";
 import { Astronaut, BlushObjects, Eclipse } from "./CelestialGuests.jsx";
@@ -545,7 +546,7 @@ function Post({ bloom, mode, onReady, engine, onModeChange, modeRequest, pulseRo
       if(blushRoot.current)blushRoot.current.visible=selected==='blush';
       gl.toneMapping=selected==='blush'?THREE.NoToneMapping:THREE.ACESFilmicToneMapping;
       pipeline.dof.enabled=selected==='blush';
-      pipeline.astronautDof.enabled=selected==='pulse';
+      pipeline.astronautDof.enabled=true;
       pipeline.glow.enabled=selected==='pulse';pipeline.glow.strength=bloom;
       pipeline.composer.render();
       return pipeline.composer.readBuffer.texture;
@@ -611,6 +612,7 @@ export default function Starfield({
         <Blush key={fluidVersion} engine={engine} settings={settings} />
         <BlushObjects engine={engine} />
         <ModeProducts engine={engine} mode="blush"/>
+        <Magnolias engine={engine}/>
         <QuietBrandingOverlay engine={engine} mode="blush"/>
       </group>}
       {(mode==='pulse'||overlap) && <group ref={pulseRoot} name="PulseScene">
@@ -618,10 +620,10 @@ export default function Starfield({
         <Atmosphere engine={engine} settings={settings} />
         <InteractionScene engine={engine} />
         <ModeProducts engine={engine} mode="pulse"/>
-        <Astronaut engine={engine} />
         <Eclipse engine={engine} />
         <QuietBrandingOverlay engine={engine} mode="pulse"/>
       </group>}
+      <Astronaut engine={engine}/>
       <Skeletons engine={engine} visible={settings.skeletons} />
       <Post pulseRoot={pulseRoot} blushRoot={blushRoot} setOverlap={setOverlap} bloom={settings.bloom} mode={mode} onReady={onReady} engine={engine} onModeChange={onModeChange} modeRequest={modeRequest} />
     </Canvas>

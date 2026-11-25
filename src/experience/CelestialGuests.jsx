@@ -13,7 +13,7 @@ import { lavaPlanetGeometry } from './lava-planet-geometry.js';
 import { EclipseMotion, ECLIPSE_RADIUS_FRACTION } from './eclipse-motion.js';
 
 function AstronautModel({ engine }) {
-  const gltf=useLoader(GLTFLoader,'/models/astronaut/astronaut-skinned.glb');
+  const gltf=useLoader(GLTFLoader,`${import.meta.env.BASE_URL}models/astronaut/astronaut-skinned.glb`);
   const root=useRef();
   const motion=useMemo(()=>new AstronautMotion(),[]);
   const attitude=useMemo(()=>new AstronautAttitude(),[]);
